@@ -25,10 +25,11 @@
   --border: oklch(0.92 0.006 285);
   --input: oklch(0.92 0.006 285);
   --ring: oklch(0.488 0.169 259.2);
-  /* Company-Portal-style title bar in the accent color (company color at
-     runtime, see theme.svelte.ts); always light text. */
-  --titlebar: oklch(0.488 0.169 259.2);
-  --titlebar-foreground: oklch(0.99 0 0);
+  /* Translucent Fluent layers over Mica (WinUI LayerFillColorDefault /
+     CardBackgroundFillColorDefault): the backdrop tints the page and its cards. */
+  --layer: oklch(1 0 0 / 50%);
+  --layer-card: oklch(1 0 0 / 70%);
+  --layer-card-hover: oklch(0.98 0 0 / 50%);
   /* Fluent control geometry: 4px controls (radius-sm), 8px cards (radius-lg). */
   --radius: 0.5rem;
   /* Stand-in for the Mica backdrop where there is none (browser preview). */
@@ -38,7 +39,7 @@
   /* Surface ladder — translucent foreground-tinted overlays for in-page chrome.
      Use `bg-surface-1` for the lowest-emphasis surface (selectable-tile rest
      state), `bg-surface-3` for hover variant, `bg-surface-4` for icon-tile chip,
-     `bg-surface-chrome` for titlebar / panel header. */
+     `bg-surface-chrome` for panel headers. */
   --surface-1: color-mix(in oklch, var(--foreground) 2%, transparent);
   --surface-2: color-mix(in oklch, var(--foreground) 3%, transparent);
   --surface-3: color-mix(in oklch, var(--foreground) 4%, transparent);
@@ -81,7 +82,9 @@
   --border: oklch(1 0 0 / 8%);
   --input: oklch(1 0 0 / 12%);
   --ring: oklch(0.686 0.153 251);
-  --titlebar: oklch(0.4 0.14 259);
+  --layer: oklch(0.34 0 0 / 30%);
+  --layer-card: oklch(1 0 0 / 5%);
+  --layer-card-hover: oklch(1 0 0 / 8%);
   --mica-fallback: oklch(0.245 0 0);
   color-scheme: dark;
 }
@@ -108,8 +111,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-titlebar: var(--titlebar);
-  --color-titlebar-foreground: var(--titlebar-foreground);
+  --color-layer: var(--layer);
+  --color-layer-card: var(--layer-card);
+  --color-layer-card-hover: var(--layer-card-hover);
 
   --color-surface-1: var(--surface-1);
   --color-surface-2: var(--surface-2);
@@ -155,7 +159,7 @@
   }
   body {
     /* Transparent so the native Mica backdrop shows as the app's base layer
-       (Win11-Settings style: cards are opaque layers over Mica). */
+       (Win11-Settings style: page and cards are translucent layers over Mica). */
     background-color: transparent;
     color: var(--color-foreground);
     font-family: var(--font-sans);

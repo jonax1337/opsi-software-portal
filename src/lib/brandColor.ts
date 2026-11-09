@@ -2,21 +2,17 @@
  * Derives the app's accent tokens from the company color set by the opsi
  * property `brand_color`. Mirrors how Windows uses its own accent: the color
  * itself on light surfaces, a lighter tint on dark ones (a saturated mid-tone
- * fill looks muddy on #282828), and a dark shade for the title bar in dark mode.
+ * fill looks muddy on #282828).
  */
 
 export interface BrandShades {
   /** --primary / --ring: buttons, selection, links */
   primary: string;
   primaryForeground: string;
-  /** --titlebar: the Company-Portal-style header */
-  titlebar: string;
-  titlebarForeground: string;
 }
 
-/** How far the dark-mode fill moves toward white, and the dark title bar toward black. */
+/** How far the dark-mode fill moves toward white. */
 const DARK_FILL_TINT = 0.4;
-const DARK_TITLEBAR_SHADE = 0.25;
 const TEXT_ON_LIGHT = "#1a1a1a";
 const TEXT_ON_DARK = "#ffffff";
 
@@ -55,19 +51,14 @@ export function readableOn(fill: string): string {
   return contrast(fill, TEXT_ON_DARK) >= contrast(fill, TEXT_ON_LIGHT) ? TEXT_ON_DARK : TEXT_ON_LIGHT;
 }
 
-function shades(primary: string, titlebar: string): BrandShades {
-  return {
-    primary,
-    primaryForeground: readableOn(primary),
-    titlebar,
-    titlebarForeground: readableOn(titlebar),
-  };
+function shades(primary: string): BrandShades {
+  return { primary, primaryForeground: readableOn(primary) };
 }
 
 /** `brand` must be a `#rrggbb` color (the backend validates the property). */
 export function brandPalette(brand: string): Record<"light" | "dark", BrandShades> {
   return {
-    light: shades(brand, brand),
-    dark: shades(mix(brand, [255, 255, 255], DARK_FILL_TINT), mix(brand, [0, 0, 0], DARK_TITLEBAR_SHADE)),
+    light: shades(brand),
+    dark: shades(mix(brand, [255, 255, 255], DARK_FILL_TINT)),
   };
 }

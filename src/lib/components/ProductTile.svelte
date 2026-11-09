@@ -13,7 +13,7 @@
 <button
   type="button"
   {onclick}
-  class="card-inset flex h-48 w-full flex-col items-start gap-3 rounded-lg bg-card p-4 text-left transition-[background-color,box-shadow] duration-150 hover:bg-surface-3 active:bg-surface-2 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  class="card-inset flex h-48 w-full flex-col items-start gap-3 rounded-lg bg-layer-card p-4 text-left transition-[background-color,box-shadow] duration-150 hover:bg-layer-card-hover active:bg-surface-2 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring"
 >
   <AppIcon productId={product.productId} />
   <div class="w-full min-w-0">

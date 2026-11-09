@@ -13,7 +13,7 @@
 
 <div
   class={cn(
-    "bg-card text-card-foreground flex flex-col gap-6 rounded-lg border border-hairline py-6 shadow-sm",
+    "bg-layer-card text-card-foreground flex flex-col gap-6 rounded-lg border border-hairline py-6 shadow-sm",
     klass,
   )}
   {...rest}

@@ -7,9 +7,9 @@
   import { windowControls } from "$lib/system/desktop";
   import { initials } from "$lib/format";
 
-  /** Company Portal title bar: accent-colored, back button, app + company name,
-   *  centered app search, account avatar and the window's caption buttons
-   *  (the native frame is off — `decorations: false`). */
+  /** Company Portal title bar: transparent over the Mica backdrop, back button,
+   *  app + company name, centered app search, account avatar and the window's
+   *  caption buttons (the native frame is off — `decorations: false`). */
   type Props = {
     canGoBack: boolean;
     onback: () => void;
@@ -36,7 +36,7 @@
 
 <header
   data-tauri-drag-region
-  class="flex h-12 shrink-0 select-none items-center bg-titlebar text-titlebar-foreground"
+  class="flex h-12 shrink-0 select-none items-center text-foreground"
 >
   <!-- Same 40×36 rounded box, offset and hover as the nav rail's buttons below. -->
   <button
@@ -45,7 +45,7 @@
     title="Zurück"
     disabled={!canGoBack}
     onclick={onback}
-    class="mx-1.5 grid h-9 w-10 shrink-0 place-items-center rounded-sm transition-colors hover:bg-white/10 active:bg-white/5 disabled:opacity-40 disabled:hover:bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
+    class="mx-1.5 grid h-9 w-10 shrink-0 place-items-center rounded-sm transition-colors hover:bg-surface-3 active:bg-surface-1 disabled:opacity-40 disabled:hover:bg-transparent outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
   >
     <ArrowLeft class="size-4" />
   </button>
@@ -53,7 +53,7 @@
   <div data-tauri-drag-region class="flex min-w-0 shrink items-center gap-2.5 pr-4">
     <span data-tauri-drag-region class="truncate text-xs">Software Portal</span>
     {#if companyName}
-      <span data-tauri-drag-region class="h-4 w-px shrink-0 bg-white/30"></span>
+      <span data-tauri-drag-region class="h-4 w-px shrink-0 bg-hairline-strong"></span>
       <span data-tauri-drag-region class="truncate text-xs font-semibold uppercase tracking-wide">
         {companyName}
       </span>
@@ -61,9 +61,11 @@
   </div>
 
   <div data-tauri-drag-region class="flex min-w-0 flex-1 justify-center px-2">
-    <!-- Fluent TextBox: slightly translucent at rest, solid when focused, and an
+    <!-- Fluent TextBox: translucent over Mica at rest, solid when focused, and an
          accent underline that grows from the center (clipped by the rounded box). -->
-    <label class="search-box group relative w-full max-w-xl overflow-hidden rounded-sm">
+    <label
+      class="search-box group relative w-full max-w-xl overflow-hidden rounded-sm border border-hairline-strong"
+    >
       <span class="sr-only">Apps suchen</span>
       <Search
         class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground transition-colors duration-150 group-focus-within:text-primary"
@@ -72,7 +74,7 @@
         type="search"
         bind:value={kiosk.search}
         placeholder="Apps suchen"
-        class="h-8 w-full bg-card/85 pl-9 pr-3 text-sm text-foreground transition-colors duration-150 placeholder:text-muted-foreground outline-none hover:bg-card/95 focus:bg-card"
+        class="h-8 w-full bg-layer-card pl-9 pr-3 text-sm text-foreground transition-colors duration-150 placeholder:text-muted-foreground outline-none hover:bg-card/85 focus:bg-card"
       />
       <span
         aria-hidden="true"
@@ -86,7 +88,7 @@
     onclick={onprofile}
     title={user?.displayName || user?.username || "Mein Konto"}
     aria-label="Mein Konto"
-    class="mx-2 grid size-8 shrink-0 place-items-center rounded-full bg-white/90 text-xs font-semibold text-titlebar transition-colors hover:bg-white outline-none focus-visible:ring-2 focus-visible:ring-white"
+    class="mx-2 grid size-8 shrink-0 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
   >
     {#if avatar}{avatar}{:else}<Person class="size-4" />{/if}
   </button>
@@ -100,7 +102,7 @@
         onclick={() => void action()}
         class="caption-glyph grid h-full w-[46px] shrink-0 place-items-center text-[10px] transition-colors outline-none {danger
           ? 'hover:bg-[#c42b1c] hover:text-white active:bg-[#c42b1c]/90'
-          : 'hover:bg-white/10 active:bg-white/5'}"
+          : 'hover:bg-surface-3 active:bg-surface-1'}"
       >
         {glyph}
       </button>

@@ -116,7 +116,7 @@
       <h2 class="mb-3 flex items-center gap-2 text-base font-semibold text-primary">
         <Alert class="size-4" /> Benachrichtigungen
       </h2>
-      <div class="card-inset divide-y divide-hairline overflow-hidden rounded-lg bg-card text-sm">
+      <div class="card-inset divide-y divide-hairline overflow-hidden rounded-lg bg-layer-card text-sm">
         {#each kiosk.pending as p (p.productId)}
           <button
             type="button"
@@ -166,7 +166,7 @@
       <button
         type="button"
         onclick={() => onnavigate("devices")}
-        class="card-inset w-full rounded-lg bg-card p-5 text-left transition-colors hover:bg-surface-3 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        class="card-inset w-full rounded-lg bg-layer-card p-5 text-left transition-colors hover:bg-layer-card-hover cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <span class="inline-block rounded-sm bg-primary px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary-foreground">
           Dieses Gerät
@@ -196,8 +196,8 @@
     background: linear-gradient(
       100deg,
       #111 0%,
-      color-mix(in oklch, var(--titlebar) 70%, #111) 45%,
-      color-mix(in oklch, var(--titlebar) 35%, #ddd) 100%
+      color-mix(in oklch, var(--primary) 70%, #111) 45%,
+      color-mix(in oklch, var(--primary) 35%, #ddd) 100%
     );
   }
 </style>
