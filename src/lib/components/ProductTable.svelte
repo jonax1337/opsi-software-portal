@@ -19,7 +19,7 @@
   const COLUMNS = "grid-cols-[minmax(0,2.4fr)_minmax(0,1fr)_minmax(0,1.3fr)_3rem]";
 </script>
 
-<div class="card-inset overflow-hidden rounded-lg bg-card text-sm" role="table">
+<div class="card-inset overflow-hidden rounded-lg bg-layer-card text-sm" role="table">
   <div
     role="row"
     class="grid {COLUMNS} items-center gap-4 border-b border-hairline px-4 py-2.5 text-xs text-muted-foreground"

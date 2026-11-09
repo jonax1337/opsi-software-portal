@@ -122,7 +122,7 @@
     <!-- Content layer: LayerOnMica with the WinUI rounded top-left corner; the
          Mica backdrop peeks through at the notch and behind the nav pane. -->
     <div
-      class="relative flex-1 min-w-0 flex flex-col rounded-tl-lg border-l border-t border-hairline bg-background/55 overflow-hidden"
+      class="relative flex-1 min-w-0 flex flex-col rounded-tl-lg border-l border-t border-hairline bg-layer overflow-hidden"
     >
       <main class="flex-1 overflow-y-auto">
         <!-- Left-aligned like a WinUI NavigationView page, not centered. A size

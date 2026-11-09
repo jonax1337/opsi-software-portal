@@ -8,8 +8,6 @@ const media =
 const BRAND_PROPERTIES: Record<keyof BrandShades, string[]> = {
   primary: ["--primary", "--ring"],
   primaryForeground: ["--primary-foreground"],
-  titlebar: ["--titlebar"],
-  titlebarForeground: ["--titlebar-foreground"],
 };
 
 function apply(resolved: "light" | "dark") {

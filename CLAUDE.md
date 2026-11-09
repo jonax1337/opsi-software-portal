@@ -71,7 +71,7 @@ filling the tile (`svg/native-icon.svg` → `tauri icon`), the tray uses `icons/
 - **`lib/format.ts`** — German date/uptime/password-expiry formatting (pure, tested).
 - **`App.svelte`** — Company-Portal layout, no router: `view` state
   (`home | apps | downloads | devices | help | settings`) + `selectedId` for the
-  detail page, plus a `history` stack for the title bar's back button. Accent-colored `TitleBar`
+  detail page, plus a `history` stack for the title bar's back button. Transparent (Mica) `TitleBar`
   on top (search box there — typing jumps to the Apps results), compact NavPane icon rail below:
   the hamburger widens it inline into the full pane (icons keep their position, labels fade
   in); the selection pill glides within a group and shrinks/grows when moving between the
