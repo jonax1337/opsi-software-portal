@@ -26,7 +26,7 @@ DefVar $FeaturedProducts$
 DefStringList $FeaturedList$
 
 ; Wird von deploy/build-opsi-package.ps1 aus package.json gesetzt — nicht von Hand aendern.
-Set $ProductVersion$ = "0.5.0"
+Set $ProductVersion$ = "0.5.1"
 Set $DataDir$ = "%CommonAppDataDir%\opsi-kiosk"
 Set $InstallDir$ = "%ProgramFiles64Dir%\Software Portal"
 Set $LocalSetup$ = "%opsiTmpDir%\software-portal-setup.exe"
@@ -84,6 +84,16 @@ else
 	Files_cleanup_tmp
 endif
 
+comment "--- Reste des Vorgaengers 'Software Center' entfernen (auch bei Fast-Exit) ---"
+; Safety net: older package versions removed the legacy install folder while its
+; NSIS uninstaller was still running, which left the "Software Center" entry in
+; Apps & Features and a dead start menu link behind. Idempotent, cheap.
+if not (FileExists("$LegacyInstallDir$\Software Center.exe"))
+	Registry_remove_legacy_arp /64Bit
+	Registry_remove_legacy_arp /32Bit
+	LinkFolder_remove_legacy
+endif
+
 comment "--- Wartungsaktionen immer aktualisieren (auch bei Fast-Exit) ---"
 DosInAnIcon_deploy_actions
 
@@ -120,8 +130,12 @@ set "featured_products" = "$FeaturedProducts$"
 [Winbatch_install]
 "$LocalSetup$" /S
 
+; An NSIS uninstaller copies itself to %TEMP%, starts that copy and returns at
+; once. Deleting the folder right afterwards kills the copy halfway through.
+; "_?=<dir>" makes it run synchronously in place; it must be the last argument
+; and must not be quoted, even if the path contains spaces.
 [Winbatch_uninstall_legacy]
-"$LegacyInstallDir$\uninstall.exe" /S
+"$LegacyInstallDir$\uninstall.exe" /S _?=$LegacyInstallDir$
 
 [Files_remove_legacy]
 delete -sf "$LegacyInstallDir$\"
@@ -131,6 +145,17 @@ delete -sf "$LegacyInstallDir$\"
 [Registry_remove_legacy_autostart]
 openkey [Software\Microsoft\Windows\CurrentVersion\Run]
 deletevar "Software Center"
+
+[Registry_remove_legacy_arp]
+deletekey [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Software Center]
+
+[LinkFolder_remove_legacy]
+set_basefolder common_programs
+set_subfolder ""
+delete_element "Software Center"
+set_basefolder common_desktopdirectory
+set_subfolder ""
+delete_element "Software Center"
 
 [Files_copy_setup]
 copy "%ScriptPath%\files\software-portal-setup.exe" "%opsiTmpDir%\"

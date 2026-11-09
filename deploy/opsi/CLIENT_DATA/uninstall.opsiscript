@@ -22,8 +22,17 @@ comment "--- Reste entfernen (Startmenue-/Desktop-Links raeumt der NSIS-Uninstal
 Files_cleanup
 Registry_remove_branding /64Bit
 
+comment "--- Sicherheitsnetz: Uninstall-Eintrag und Startmenue-Link sicher entfernen ---"
+Registry_remove_arp /64Bit
+Registry_remove_arp /32Bit
+LinkFolder_remove_links
+
+; "_?=<dir>": run synchronously in place instead of returning at once from a
+; %TEMP% copy (Files_cleanup would otherwise delete the folder mid-uninstall and
+; leave the Apps & Features entry and start menu link behind). Last argument,
+; never quoted.
 [Winbatch_uninstall]
-"$InstallDir$\uninstall.exe" /S
+"$InstallDir$\uninstall.exe" /S _?=$InstallDir$
 
 [Files_cleanup]
 delete -sf "$InstallDir$\"
@@ -31,3 +40,14 @@ delete -sf "%CommonAppDataDir%\opsi-kiosk\"
 
 [Registry_remove_branding]
 deletekey [HKEY_LOCAL_MACHINE\SOFTWARE\opsi-kiosk]
+
+[Registry_remove_arp]
+deletekey [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Software Portal]
+
+[LinkFolder_remove_links]
+set_basefolder common_programs
+set_subfolder ""
+delete_element "Software Portal"
+set_basefolder common_desktopdirectory
+set_subfolder ""
+delete_element "Software Portal"
